@@ -1,0 +1,241 @@
+<div class=" mt-5 mb-5 ">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-primary text-center">
+                <tr class="align-middle">
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Vai Trò</th>
+                    <th>Quyền</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list | paginate: { itemsPerPage: pageSize, currentPage: currentPage , totalItems:totalElements  }; let i = index" class="text-center">
+                    <td class="text-center">{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                    <td class="text-center">{{ item.id }}</td>
+                    <td class="text-center">{{ item.name }}</td>
+                    <td class="text-center">{{ item.email }}</td>
+                    <td class="text-center">
+                        <span *ngFor="let role of item.roles; let j = index">
+                            {{ role.name }}<span *ngIf="j < item.roles.length - 1">, </span>
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+                        <ng-container *ngIf="getUniquePermissions(item) as perms">
+                            <span *ngFor="let perm of perms; let i = index">
+                                {{ perm }}<span *ngIf="i < perms.length - 1">, </span>
+                            </span>
+                        </ng-container>
+                    </td>
+
+
+                    <td>
+                        <button type="button" class="btn btn-sm btn-outline-info me-2" data-bs-toggle="modal"
+                            data-bs-target="#detailModal" (click)="openDetail(item)" title="Xem chi tiết">
+                            <i class="bi bi-eye"></i>
+                        </button>
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+       <div class="text-end text-secondary" *ngIf="list && list.length">
+        Tổng số bản ghi: <b>{{ totalElements }}</b>
+   </div>
+       <pagination-controls (pageChange)="pageChanged($event)" [responsive]="true" previousLabel="Trước"
+            nextLabel="Sau" [directionLinks]="true" class="d-flex justify-content-center mt-3">
+        </pagination-controls>
+
+
+    <!-- <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết người dùng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        (click)="isEditing = false"></button>
+                </div>
+
+                <div class="modal-body" *ngIf="selectedItem">
+                    <h5 class="mb-3">Thông tin người dùng</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Họ tên:</label>
+                        <input class="form-control" [value]="selectedItem.name" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email:</label>
+                        <input class="form-control" [value]="selectedItem.email" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Vai trò:</label>
+                        <select class="form-select" [(ngModel)]="selectedItem.roles" [disabled]="!isEditing" or
+                            [disabled]="!isDelete" multiple>
+                            <option *ngFor="let role of availableRoles" [ngValue]="role">
+                                {{ role.name }}
+                            </option>
+                        </select>
+                        
+                    </div>
+                    
+
+                    <div class="modal-footer">
+                        <button *ngIf="!isEditing; else deleteBtn" class="btn btn-warning" (click)="isEditing = true">
+                            <i class="bi bi-pencil-square"></i> Chỉnh sửa vai trò
+                        </button>
+
+                        <button *ngIf="isEditing" class="btn btn-success" (click)="saveRoleOnly()">
+                            <i class="bi bi-save"></i> Lưu
+                        </button>
+                        <ng-template #deleteBtn>
+                            <button class="btn btn-danger" (click)="saveDele()">
+                                <i class="bi bi-trash"></i> Xoá
+                            </button>
+                        </ng-template>
+
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" (click)="isEditing = false">
+                            Đóng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    <div class="modal fade" id="detailModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết người dùng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        (click)="isEditing = false"></button>
+                </div>
+
+                <div class="modal-body" *ngIf="selectedItem">
+                    <h5 class="mb-3">Thông tin người dùng</h5>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Họ tên:</label>
+                        <input class="form-control" [value]="selectedItem.name" readonly />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email:</label>
+                        <input class="form-control" [value]="selectedItem.email" readonly />
+                    </div>
+
+                    <!-- Vai trò -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Vai trò:</label>
+                        <select class="form-select" [(ngModel)]="selectedItem.roles" [disabled]="!isEditing" multiple>
+                            <option *ngFor="let role of availableRoles" [ngValue]="role">
+                                {{ role.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Quyền:</label>
+                        <select class="form-select" [(ngModel)]="selectedItem.permissions" [disabled]="!isEditing"
+                            multiple>
+                            <option *ngFor="let role of availablePermissions" [ngValue]="role">
+                                {{ role.name }}
+                            </option>
+                        </select>
+                    </div>
+
+
+                    <!-- Quyền tương ứng với vai trò -->
+                    <div *ngFor="let role of selectedItem.roles" class="mb-3 border rounded p-2 shadow-sm bg-light">
+                        <h6 class="text-primary"><i class="bi bi-person-vcard"></i> Vai trò: {{ role.name }}</h6>
+
+                        <div *ngIf="role.permissions?.length > 0; else noPerm">
+                            <ul class="list-group list-group-flush">
+                                <li *ngFor="let perm of role.permissions" class="list-group-item py-1">
+                                    <i class="bi bi-shield-lock-fill text-success me-2"></i> {{ perm.name }} - {{
+                                    perm.description }}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <ng-template #noPerm>
+                            <p class="text-muted fst-italic">Không có quyền nào.</p>
+                        </ng-template>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button *ngIf="!isEditing; else saveBtn" class="btn btn-warning" (click)="isEditing = true">
+                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                    </button>
+
+                    <ng-template #saveBtn>
+                        <button class="btn btn-success" (click)="saveAll()">
+                            <i class="bi bi-save"></i> Lưu
+                        </button>
+                    </ng-template>
+
+                    <!-- Các nút xóa (chỉ hiện khi không chỉnh sửa) -->
+                    <div *ngIf="isEditing" class="d-inline">
+                        <button class="btn btn-danger me-2" (click)="saveDele()">
+                            <i class="bi bi-trash"></i> Xoá Vai Trò
+                        </button>
+                        <button class="btn btn-danger" (click)="saveDelePermission()">
+                            <i class="bi bi-trash"></i> Xoá Quyền
+                        </button>
+                    </div>
+
+                    <!-- Nút đóng -->
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- <div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết người dùng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body" *ngIf="selectedItem">
+                <h5 class="mb-3">Thông tin người dùng</h5>
+                <p><strong>Họ tên:</strong> {{ selectedItem.name }}</p>
+                <p><strong>Email:</strong> {{ selectedItem.email }}</p>
+
+                <div *ngFor="let role of selectedItem.roles" class="mb-3 border rounded p-3 shadow-sm bg-light">
+                    <h6 class="text-primary">
+                        <i class="bi bi-person-vcard"></i> Vai trò: {{ role.name }}
+                    </h6>
+                    <div *ngIf="role.permissions?.length > 0; else noPerm">
+                        <ul class="list-group list-group-flush">
+                            <li *ngFor="let perm of role.permissions" class="list-group-item py-1">
+                                <i class="bi bi-shield-lock-fill text-success me-2"></i> {{ perm.name }}
+                            </li>
+                        </ul>
+                    </div>
+                    <ng-template #noPerm>
+                        <p class="text-muted fst-italic">Không có quyền nào.</p>
+                    </ng-template>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->

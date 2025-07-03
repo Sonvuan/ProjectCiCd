@@ -1,0 +1,43 @@
+<header class="bg-light p-3 d-flex align-items-center justify-content-between">
+  <div class="logo d-flex align-items-center">
+    <img src="/R.png" alt="Logo" style="height: 40px; margin-right: 10px;" />
+    <h1 class="m-0">Currency-Rate</h1>
+  </div>
+
+
+  <!-- Nút bật menu -->
+  <button class="btn btn-outline-secondary m-3" (click)="toggleSidebar()">
+    <i class="bi bi-list"></i> Menu
+  </button>
+
+
+  <div class="sidebar" [class.open]="sidebarOpen">
+    <div class="user-info d-flex align-items-center p-3">
+      <i class="bi bi-person-circle fs-4 me-2"></i>
+      <span *ngIf="name" class="ms-2 fw-semibold text-primary">Xin chào, {{ name }}!</span>
+    </div>
+    <ul class="nav flex-column p-3">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/currency/list" routerLinkActive="active">
+          <i class="bi bi-speedometer2 me-2"></i> TRANG CHỦ
+        </a>
+      </li>
+      <li class="nav-item">
+        <a *ngxPermissionsOnly="['ADMIN','CREATE']" class="nav-link" routerLink="/admin/acount" routerLinkActive="active">
+          <i class="bi bi-people-fill me-2"></i> TÀI KHOẢN
+        </a>
+      </li>
+      <li class="nav-item">
+        <a *ngxPermissionsOnly="['ADMIN']" class="nav-link" routerLink="/admin/role" routerLinkActive="active">
+          <i class="bi bi-shield-lock-fill me-2"></i> PHÂN QUYỀN
+        </a>
+      </li>
+      <li class="nav-item mt-4">
+        <button class="btn btn-outline-danger w-100" (click)="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i> Đăng xuất
+        </button>
+      </li>
+    </ul>
+  </div>
+
+</header>

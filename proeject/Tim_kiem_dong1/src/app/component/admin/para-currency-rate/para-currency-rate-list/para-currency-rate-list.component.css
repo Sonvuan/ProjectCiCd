@@ -1,0 +1,97 @@
+.table {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.table thead th:first-child { border-top-left-radius: 16px; }
+.table thead th:last-child { border-top-right-radius: 16px; }
+.table tbody tr:last-child td:first-child { border-bottom-left-radius: 16px; }
+.table tbody tr:last-child td:last-child { border-bottom-right-radius: 16px; }
+
+form {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  padding: 24px 18px 12px;
+  margin-bottom: 24px;
+}
+
+/* Căn giữa cột hành động, không xuống dòng */
+.table tbody td:last-child {
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Nút trong cột hành động */
+.table tbody td:last-child button {
+  margin-right: 8px;
+  min-width: 60px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Hover cho nút sửa */
+.table tbody td:last-child button.btn-warning:hover {
+  background-color: #e0a800;
+  border-color: #d39e00;
+}
+
+/* Hover cho nút xóa */
+.table tbody td:last-child button.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+/* Modal popup container */
+.modal-content {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  max-height: 80vh;
+  overflow-y: auto;
+  border: none;
+}
+
+/* Header modal */
+.modal-header {
+  background-color: #007bff; /* màu xanh bootstrap */
+  color: white;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom: none;
+  padding: 1rem 1.5rem;
+}
+
+/* Nút đóng modal */
+.modal-header .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+}
+
+.modal-header .btn-close:hover {
+  opacity: 1;
+}
+
+/* Body modal */
+.modal-body {
+  background-color: #f9fafb;
+  padding: 1.5rem 2rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Footer modal */
+.modal-footer {
+  border-top: none;
+  background-color: white;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Nút đóng ở footer */
+.modal-footer .btn {
+  min-width: 100px;
+}

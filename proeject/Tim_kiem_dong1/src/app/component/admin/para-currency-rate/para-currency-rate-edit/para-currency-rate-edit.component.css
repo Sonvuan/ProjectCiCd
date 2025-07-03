@@ -1,0 +1,81 @@
+/* Khoảng cách giữa các label và input */
+form label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Tăng padding và border radius cho input */
+form input.form-control,
+form select.form-select,
+form textarea.form-control {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+/* Highlight input khi focus */
+form input.form-control:focus,
+form select.form-select:focus,
+form textarea.form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* Căn chỉnh error */
+form .text-danger {
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* Khoảng cách giữa các field group */
+form .col-md-6,
+form .col-12 {
+  margin-bottom: 1rem;
+}
+
+/* Button styling */
+form .btn {
+  min-width: 100px;
+  padding: 8px 16px;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+/* Nút Lưu - nổi bật */
+form .btn-primary {
+  background-color: #0d6efd;
+  border: none;
+}
+form .btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+/* Nút Hủy */
+form .btn-secondary {
+  background-color: #6c757d;
+  border: none;
+}
+form .btn-secondary:hover {
+  background-color: #5c636a;
+}
+
+/* Định dạng alert lỗi */
+form .alert-danger {
+  font-size: 0.95rem;
+  border-radius: 8px;
+  padding: 10px 15px;
+}
+
+.mt-4 {
+  display: flex;
+  justify-content: flex-end; /* đẩy các nút sang bên phải */
+  gap: 8px; /* khoảng cách giữa các nút */
+}
+/* Responsive hàng ngang (cho group FC) */
+@media (min-width: 768px) {
+  .d-flex.flex-wrap.gap-3 > div {
+    min-width: 180px;
+  }
+}

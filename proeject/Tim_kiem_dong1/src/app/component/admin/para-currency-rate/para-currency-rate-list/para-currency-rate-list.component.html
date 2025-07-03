@@ -1,0 +1,376 @@
+<div class="mt-4">
+    <h3 class="mb-3">Danh sách tỷ giá</h3>
+    <form class=" row g-3 mb-4" (ngSubmit)="search()" #searchForm="ngForm">
+
+        <div class="col-md-3">
+            <label for="currency" class="form-label">Mã tiền tệ</label>
+            <input type="text" class="form-control" [(ngModel)]="searchInput.currency" name="currency" id="currency"
+                placeholder="Mã tiền tệ" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="currencyName" class="form-label">Tên tiền tệ</label>
+            <input type="text" class="form-control" [(ngModel)]="searchInput.currencyName" name="currencyName"
+                id="currencyName" placeholder="Tên tiền tệ" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="decimalPrecision" class="form-label">Decimal Precision</label>
+            <input type="text" class="form-control" [(ngModel)]="searchInput.decimalPrecision" name="decimalPrecision"
+                id="decimalPrecision" placeholder="Decimal Precision" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="currencyHoliday" class="form-label">Ngày nghỉ</label>
+            <input type="date" class="form-control" [(ngModel)]="searchInput.currencyHoliday" name="currencyHoliday"
+                id="currencyHoliday" placeholder="Ngày nghỉ" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="fcPurchase" class="form-label">FC Purchase</label>
+            <select class="form-select" [(ngModel)]="searchInput.fcPurchase" name="fcPurchase" id="fcPurchase">
+                <option value="">-- Tất cả --</option>
+                <option value="Có">Có</option>
+                <option value="Không">Không</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="fcSale" class="form-label">FC Sale</label>
+            <select class="form-select" [(ngModel)]="searchInput.fcSale" name="fcSale" id="fcSale">
+                <option value="">-- Tất cả --</option>
+                <option value="Có">Có</option>
+                <option value="Không">Không</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="currencyExchange" class="form-label">Currency Exchange</label>
+            <select class="form-select" [(ngModel)]="searchInput.currencyExchange" name="currencyExchange"
+                id="currencyExchange">
+                <option value="">-- Tất cả --</option>
+                <option value="Có">Có</option>
+                <option value="Không">Không</option>
+            </select>
+        </div>
+
+
+        <div class="col-md-3">
+            <label for="vndGlAccount" class="form-label">VND GL Account</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.vndGlAccount" name="vndGlAccount"
+                id="vndGlAccount" placeholder="VND GL Account" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="fcGlAccount" class="form-label">FC GL Account</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.fcGlAccount" name="fcGlAccount"
+                id="fcGlAccount" placeholder="FC GL Account" />
+        </div>
+
+        <!-- <div class="col-md-3">
+            <label for="country" class="form-label">Quốc gia</label>
+            <input type="text" class="form-control" [(ngModel)]="searchInput.country" name="country" id="country"
+                placeholder="Quốc gia" />
+        </div> -->
+        <div class="col-md-3">
+            <label for="country" class="form-label">Quốc gia</label>
+            <select class="form-control" [(ngModel)]="searchInput.country" name="lopId">
+                <option [value]="''">-- Chọn Quốc Gia --</option>
+                <option *ngFor="let maItem of countryList" [value]="maItem.name">
+                    {{ maItem.ma }} - {{ maItem.name }}
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="buyingRate" class="form-label">Buying Rate</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.buyingRate" name="buyingRate"
+                id="buyingRate" placeholder="Buying Rate" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="brCashHigh" class="form-label">BR Cash High</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.brCashHigh" name="brCashHigh"
+                id="brCashHigh" placeholder="BR Cash High" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="brCashLow" class="form-label">BR Cash Low</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.brCashLow" name="brCashLow"
+                id="brCashLow" placeholder="BR Cash Low" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="sellingRate" class="form-label">Selling Rate</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.sellingRate" name="sellingRate"
+                id="sellingRate" placeholder="Selling Rate" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="intermediateRate" class="form-label">Intermediate Rate</label>
+            <input type="number" class="form-control" [(ngModel)]="searchInput.intermediateRate" name="intermediateRate"
+                id="intermediateRate" placeholder="Intermediate Rate" />
+        </div>
+
+        <div class="col-md-3">
+            <label for="paraStatus" class="form-label">Trạng thái Para</label>
+            <select class="form-select" id="paraStatus" [(ngModel)]="searchInput.paraStatus" name="paraStatus">
+                <option value="">-- Tất cả --</option>
+                <option [value]="0">0: Mới</option>
+                <option [value]="1">1: Chờ</option>
+                <option [value]="2">2: Đã phê duyệt</option>
+                <option [value]="3">3: Từ chối</option>
+                <option [value]="4">4: Xoá</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="activeStatus" class="form-label">Trạng thái hoạt động</label>
+            <select class="form-select" id="activeStatus" [(ngModel)]="searchInput.activeStatus" name="activeStatus">
+                <option value="">-- Tất cả --</option>
+                <option [value]="0">0: Không hoạt động</option>
+                <option [value]="1">1: Đang hoạt động</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Cash Transaction:</label>
+            <select name="cashTransaction" [(ngModel)]="searchInput.cashTransaction" class="form-select">
+                <option value="">-- Tất cả --</option>
+                <option value="Tiền Mặt">Tiền Mặt</option>
+                <option value="Chuyển Khoản">Chuyển Khoản</option>
+                <option value="Đang Chờ">Đang Chờ</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label for="jsonData" class="form-label">JSON Data</label>
+            <input type="text" class="form-control" [(ngModel)]="searchInput.jsonData" name="jsonData" id="jsonData"
+                placeholder="JSON Data" />
+        </div>
+        <div class="col-md-3">
+            <label for="sort" class="form-label">Sắp xếp</label>
+            <select class="form-select" [(ngModel)]="searchInput.sort" name="sort" id="sort">
+                <option value="desc">Mới Nhất</option>
+                <option value="asc">Cũ Nhất</option>
+            </select>
+        </div>
+
+        <div class="col-md-3 d-flex ">
+            <button class="btn btn-primary me-2 px-4" type="submit">Tìm kiếm</button>
+            <button class="btn btn-secondary px-4" type="button" (click)="reset()">Reset</button>
+        </div>
+
+    </form>
+
+    <div class="mb-3 d-flex justify-content-end">
+        <button *ngxPermissionsOnly="['ADMIN','CREATE']" class="btn btn-success" (click)="goToAdd()">Thêm mới</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>STT</th>
+                    <th>ID</th>
+                    <th>Mã</th>
+                    <th>Tên</th>
+                    <th>Ngày nghỉ</th>
+                    <th>FC Purchase</th>
+                    <th>FC Sale</th>
+                    <th>Cash Transaction</th>
+                    <th>Currency Exchange</th>
+                    <th>VND GL Account</th>
+                    <th>FC GL Account</th>
+                    <th>Quốc gia</th>
+                    <th>Buying Rate</th>
+                    <th>BR Cash High</th>
+                    <th>BR Cash Low</th>
+                    <th>Selling Rate</th>
+                    <th>Intermediate Rate</th>
+                    <th>Para Status</th>
+                    <th>Active Status</th>
+                    <th>JSON Data</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list | paginate: { itemsPerPage: pageSize, currentPage: currentPage , totalItems:totalElements  }; let i = index"
+                    class="text-center">
+                    <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.currency }}</td>
+                    <td>{{ item.currencyName }}</td>
+                    <td>{{ item.currencyHoliday | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ item.fcPurchase }}</td>
+                    <td>{{ item.fcSale }}</td>
+                    <td>{{ item.cashTransaction }}</td>
+                    <td>{{ item.currencyExchange }}</td>
+                    <td>{{ item.vndGlAccount }}</td>
+                    <td>{{ item.fcGlAccount }}</td>
+                    <td>{{ item.country }}</td>
+                    <td>{{ item.buyingRate }}</td>
+                    <td>{{ item.brCashHigh }}</td>
+                    <td>{{ item.brCashLow }}</td>
+                    <td>{{ item.sellingRate }}</td>
+                    <td>{{ item.intermediateRate }}</td>
+                    <td>{{ item.paraStatus ==0 ? "Mới" :
+                        item.paraStatus ==1 ? "Chờ" :
+                        item.paraStatus ==2 ? "Đã phê duyệt" :
+                        item.paraStatus ==3 ? "Từ chối" :
+                        item.paraStatus ==4 ? "Xoá":
+                        "Không xác định"
+                        }}</td>
+                    <td>{{ item.activeStatus == 0 ? "Không hoạt động" :
+                        item.activeStatus == 1 ? "Có hoạt động" :
+                        "Không xác định" }}</td>
+                    <td>{{ item.jsonData }}</td>
+                    <td class="align-content-center">
+                        <button type="button" class="btn btn-link p-0 me-2" data-bs-toggle="modal"
+                            data-bs-target="#detailModal" (click)="selectedItem = item" title="Xem chi tiết">
+                            <i class="bi bi-eye text-info fs-5"></i>
+                        </button>
+                        <button *ngxPermissionsOnly="['ADMIN','UPDATE']" class="btn btn-link p-0 me-2"
+                            (click)="goToEdit(item)" title="Sửa">
+                            <i class="bi bi-pencil-square text-warning fs-5"></i>
+                        </button>
+                        <button *ngxPermissionsOnly="['ADMIN','DELETE']" class="btn btn-link p-0"
+                            (click)="delete(item.id)" title="Xóa">
+                            <i class="bi bi-trash text-danger fs-5"></i>
+                        </button>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="mb-2 text-end text-secondary" *ngIf="list && list.length">
+        Tổng số bản ghi: <b>{{ totalElements }}</b>
+        <div class="d-flex justify-content-end align-items-center mt-3">
+            <label for="pageSizeSelect" class="me-2">Số bản ghi:</label>
+            <select id="pageSizeSelect" class="form-select w-auto" (change)="onSizeChange($event)" [value]="pageSize">
+                <option [value]="5">5</option>
+                <option [value]="10">10</option>
+                <option [value]="20">20</option>
+                <option [value]="50">50</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-end align-items-center mt-2">
+            <label class="me-2">Nhảy đến trang:</label>
+            <input type="number" class="form-control w-auto" [(ngModel)]="goToPageInput" (keyup.enter)="goToPage()"
+                [min]="1" [max]="totalPages" placeholder="Nhập số trang" />
+
+
+        </div>
+        <pagination-controls (pageChange)="pageChanged($event)" [responsive]="true" previousLabel="Trước"
+            nextLabel="Sau" [directionLinks]="true" class="d-flex justify-content-center mt-3">
+        </pagination-controls>
+
+    </div>
+</div>
+<!-- Modal xem chi tiết -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shadow-sm border-0 rounded-4">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title" id="detailModalLabel"><i class="bi bi-currency-exchange me-2"></i>Chi tiết tỷ
+                    giá</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <table class="table table-striped table-hover align-middle mb-0">
+                    <tbody>
+                        <tr>
+                            <th class="text-end w-25">ID</th>
+                            <td>{{selectedItem?.id}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Mã tiền tệ</th>
+                            <td>{{selectedItem?.currency}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Tên tiền tệ</th>
+                            <td>{{selectedItem?.currencyName}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Ngày nghỉ</th>
+                            <td>{{selectedItem?.currencyHoliday}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">FC Purchase</th>
+                            <td>{{selectedItem?.fcPurchase}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">FC Sale</th>
+                            <td>{{selectedItem?.fcSale}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Cash Transaction</th>
+                            <td>{{selectedItem?.cashTransaction}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Currency Exchange</th>
+                            <td>{{selectedItem?.currencyExchange}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">VND GL Account</th>
+                            <td>{{selectedItem?.vndGlAccount}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">FC GL Account</th>
+                            <td>{{selectedItem?.fcGlAccount}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Quốc gia</th>
+                            <td>{{selectedItem?.country}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Buying Rate</th>
+                            <td>{{selectedItem?.buyingRate}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">BR Cash High</th>
+                            <td>{{selectedItem?.brCashHigh}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">BR Cash Low</th>
+                            <td>{{selectedItem?.brCashLow}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Selling Rate</th>
+                            <td>{{selectedItem?.sellingRate}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Intermediate Rate</th>
+                            <td>{{selectedItem?.intermediateRate}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Para Status</th>
+                            <td>{{ selectedItem?.paraStatus ==0 ? "Mới" :
+                                selectedItem?.paraStatus ==1 ? "Chờ" :
+                                selectedItem?.paraStatus ==2 ? "Đã phê duyệt" :
+                                selectedItem?.paraStatus ==3 ? "Từ chối" :
+                                selectedItem?.paraStatus ==4 ? "Xoá":
+                                "Không xác định"
+                                }}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-end">Active Status</th>
+                            <td>{{selectedItem?.activeStatus == 1 ? 'Đang hoạt động' : 'Không hoạt động'}}</td>
+
+                        </tr>
+                        <tr>
+                            <th class="text-end">JSON Data</th>
+                            <td>
+                                <pre class="mb-0 small">{{selectedItem?.jsonData}}</pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer bg-white border-0">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>

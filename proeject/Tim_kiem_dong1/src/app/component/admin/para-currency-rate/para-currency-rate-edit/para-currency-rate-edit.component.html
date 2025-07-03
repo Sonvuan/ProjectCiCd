@@ -1,0 +1,266 @@
+<form #paraForm="ngForm" (ngSubmit)="onSubmit(paraForm)" novalidate>
+  <div class="row g-3">
+    <!-- Mã -->
+    <div class="col-md-6">
+      <label for="code" class="form-label">Mã:</label>
+      <input id="code" type="text" name="currency" [(ngModel)]="para.currency" #code="ngModel" class="form-control"
+        placeholder="Nhập mã tiền tệ" required maxlength="10" />
+      <div *ngIf="code.invalid && (code.touched || submitted)" class="text-danger small mt-1">
+        Mã tiền tệ là bắt buộc và tối đa 10 ký tự.
+      </div>
+    </div>
+
+    <!-- Tên -->
+    <div class="col-md-6">
+      <label for="name" class="form-label">Tên:</label>
+      <input id="name" type="text" name="currencyName" [(ngModel)]="para.currencyName" #name="ngModel"
+        class="form-control" placeholder="Nhập tên tiền tệ" required maxlength="100" />
+      <div *ngIf="name.invalid && (name.touched || submitted)" class="text-danger small mt-1">
+        Tên tiền tệ là bắt buộc và tối đa 50 ký tự.
+      </div>
+    </div>
+
+    <!-- Ngày nghỉ -->
+    <div class="col-md-6">
+      <label for="holiday" class="form-label">Ngày nghỉ:</label>
+      <input id="holiday" type="date" name="currencyHoliday" [(ngModel)]="para.currencyHoliday" class="form-control"
+        required #holidayInput="ngModel" />
+      <div *ngIf="holidayInput.invalid && holidayInput.touched" class="text-danger">
+        Ngày nghỉ là bắt buộc.
+      </div>
+
+    </div>
+
+    <!-- FC Purchase -->
+    <div class="col-md-6 d-flex align-items-center gap-3 flex-wrap">
+      <div>
+        <label for="fcPurchase" class="form-label mb-0 me-2">FC Purchase</label>
+        <select id="fcPurchase" name="fcPurchase" class="form-select form-select-sm" [(ngModel)]="para.fcPurchase"
+          #fcPurchase="ngModel" required>
+          <option Value="" disabled>-- Chọn trạng thái --</option>
+          <option [ngValue]="'Có'">Có</option>
+          <option [ngValue]="'Không'">Không</option>
+        </select>
+        <div *ngIf="fcPurchase.invalid && (fcPurchase.touched || submitted)" class="text-danger small mt-1">
+          Vui lòng chọn FC Purchase.
+        </div>
+      </div>
+
+      <!-- FC Sale -->
+      <div>
+        <label for="fcSale" class="form-label mb-0 me-2">FC Sale</label>
+        <select id="fcSale" name="fcSale" class="form-select form-select-sm" [(ngModel)]="para.fcSale" #fcSale="ngModel"
+          required>
+          <option Value="" disabled>-- Chọn trạng thái --</option>
+          <option Value="Có">Có</option>
+          <option Value="Không">Không</option>
+        </select>
+        <div *ngIf="fcSale.invalid && (fcSale.touched || submitted)" class="text-danger small mt-1">
+          Vui lòng chọn FC Sale.
+        </div>
+      </div>
+
+      <!-- Currency Exchange -->
+      <div>
+        <label for="currencyExchange" class="form-label mb-0 me-2">Currency Exchange</label>
+        <select id="currencyExchange" name="currencyExchange" class="form-select form-select-sm"
+          [(ngModel)]="para.currencyExchange" #currencyExchange="ngModel" required>
+          <option Value="" disabled>-- Chọn trạng thái --</option>
+          <option Value="Có">Có</option>
+          <option Value="Không">Không</option>
+        </select>
+        <div *ngIf="currencyExchange.invalid && (currencyExchange.touched || submitted)" class="text-danger small mt-1">
+          Vui lòng chọn Currency Exchange.
+        </div>
+      </div>
+    </div>
+
+    <!-- VND GL Account -->
+    <div class="col-md-6">
+      <label for="vndGlAccount" class="form-label">VND GL Account:</label>
+      <input id="vndGlAccount" type="text" name="vndGlAccount" [(ngModel)]="para.vndGlAccount" #vndGlAccount="ngModel"
+        required pattern="^[0-9]{1,9}$" maxlength="9" class="form-control" placeholder="Nhập VND GL Account" />
+      <div *ngIf="submitted && vndGlAccount.errors?.['required']" class="text-danger small mt-1">
+        VND GL Account là bắt buộc.
+      </div>
+      <div *ngIf="submitted && vndGlAccount.errors?.['pattern']" class="text-danger small mt-1">
+        VND GL Account phải là số và tối đa 9 chữ số.
+      </div>
+
+    </div>
+
+    <!-- FC GL Account -->
+    <div class="col-md-6">
+      <label for="fcGlAccount" class="form-label">FC GL Account:</label>
+      <input id="fcGlAccount" type="text" name="fcGlAccount" [(ngModel)]="para.fcGlAccount" #fcAccount="ngModel"
+        required pattern="^[0-9]{1,9}$" maxlength="9" class="form-control" placeholder="Nhập FC GL Account" />
+      <div *ngIf="submitted && fcAccount.errors?.['required']" class="text-danger small mt-1">
+        FC GL Account là bắt buộc.
+      </div>
+      <div *ngIf="submitted && fcAccount.errors?.['pattern']" class="text-danger small mt-1">
+        FC GL Account phải là số và tối đa 9 chữ số.
+      </div>
+
+    </div>
+
+    <!-- Quốc gia -->
+    <!-- <div class="col-md-6">
+      <label for="country" class="form-label">Quốc gia:</label>
+      <input id="country" type="text" name="country" [(ngModel)]="para.country" #country="ngModel" required
+        maxlength="50" class="form-control" placeholder="Nhập quốc gia" />
+      <div *ngIf="country.invalid && (country.touched || submitted)" class="text-danger small mt-1">
+        Quốc gia là bắt buộc và tối đa 50 ký tự.
+      </div>
+    </div> -->
+
+    <div class="col-md-6">
+      <label for="country" class="form-label">Quốc gia:</label>
+      <select class="form-control" [(ngModel)]="para.country" name="country" #country="ngModel" required>
+        <option [value]="''" disabled>-- Chọn Quốc GIa --</option>
+        <option *ngFor="let maItem of countryList" [value]="maItem.name">
+          {{ maItem.ma }} - {{ maItem.name }}
+        </option>
+      </select>
+            <div *ngIf="country.invalid && (country.touched || submitted)" class="text-danger small mt-1">
+        Quốc gia là bắt buộc và tối đa 50 ký tự.
+      </div>
+    </div>
+
+    <!-- Buying Rate -->
+    <div class="col-md-6">
+      <label for="buyingRate" class="form-label">Buying Rate:</label>
+      <input id="buyingRate" type="text" name="buyingRate" [(ngModel)]="para.buyingRate" #buyingRate="ngModel"
+        class="form-control" placeholder="Nhập Buying Rate" required pattern="^[0-9]{1,10}$" maxlength="10" />
+      <div *ngIf="submitted && buyingRate.errors?.['required']" class="text-danger small mt-1">
+        Buying Rate là bắt buộc.
+      </div>
+      <div *ngIf="submitted && buyingRate.errors?.['pattern']" class="text-danger small mt-1">
+        Buying Rate phải là số và tối đa 10 chữ số.
+      </div>
+
+    </div>
+
+    <!-- BR Cash High -->
+    <div class="col-md-6">
+      <label for="brCashHigh" class="form-label">BR Cash High:</label>
+      <input id="brCashHigh" type="text" name="brCashHigh" [(ngModel)]="para.brCashHigh" #brCashHigh="ngModel"
+        class="form-control" placeholder="Nhập BR Cash High" required pattern="^[0-9]{1,10}$" maxlength="10" />
+      <div *ngIf="submitted && brCashHigh.errors?.['required']" class="text-danger small mt-1">
+        BR Cash High là bắt buộc.
+      </div>
+      <div *ngIf="submitted && brCashHigh.errors?.['pattern']" class="text-danger small mt-1">
+        BR Cash High phải là số và tối đa 10 chữ số.
+      </div>
+    </div>
+
+    <!-- BR Cash Low -->
+    <div class="col-md-6">
+      <label for="brCashLow" class="form-label">BR Cash Low:</label>
+      <input id="brCashLow" type="text" name="brCashLow" [(ngModel)]="para.brCashLow" #brCashLow="ngModel"
+        class="form-control" placeholder="Nhập BR Cash Low" required pattern="^[0-9]{1,10}$" maxlength="10" />
+      <div *ngIf="submitted && brCashLow.errors?.['required']" class="text-danger small mt-1">
+        BR Cash Low là bắt buộc.
+      </div>
+      <div *ngIf="submitted && brCashLow.errors?.['pattern']" class="text-danger small mt-1">
+        BR Cash Low phải là số và tối đa 10 chữ số.
+      </div>
+    </div>
+
+    <!-- Selling Rate -->
+    <div class="col-md-6">
+      <label for="sellingRate" class="form-label">Selling Rate:</label>
+      <input id="sellingRate" type="text" name="sellingRate" [(ngModel)]="para.sellingRate" #sellingRate="ngModel"
+        class="form-control" placeholder="Nhập Selling Rate" required pattern="^[0-9]{1,10}$" maxlength="10" />
+
+      <div *ngIf="submitted && sellingRate.errors?.['required']" class="text-danger small mt-1">
+        Selling Rate là bắt buộc.
+      </div>
+
+      <div *ngIf="submitted && sellingRate.errors?.['pattern']" class="text-danger small mt-1">
+        Selling Rate phải là một số và tối đa 10 chữ số.
+      </div>
+    </div>
+
+
+    <!-- Intermediate Rate -->
+    <div class="col-md-6">
+      <label for="intermediateRate" class="form-label">Intermediate Rate:</label>
+      <input id="intermediateRate" type="text" name="intermediateRate" [(ngModel)]="para.intermediateRate"
+        #intermediateRate="ngModel" class="form-control" placeholder="Nhập Intermediate Rate" required
+        pattern="^[0-9]{1,10}$" maxlength="10" />
+      <div *ngIf="submitted && intermediateRate.errors?.['required']" class="text-danger small mt-1">
+        Intermediate Rate là bắt buộc.
+      </div>
+
+      <div *ngIf="submitted && intermediateRate.errors?.['pattern']" class="text-danger small mt-1">
+        Intermediate Rate phải là một số và tối đa 10 chữ số.
+      </div>
+    </div>
+
+    <!-- Cash Transaction -->
+    <div class="col-md-6">
+      <label class="form-label">Cash Transaction:</label>
+      <select name="cashTransaction" [(ngModel)]="para.cashTransaction" #cashTransaction="ngModel" class="form-select"
+        required>
+        <option Value="" disabled>-- Chọn trạng thái --</option>
+        <option value="Tiền Mặt">Tiền Mặt</option>
+        <option value="Chuyển Khoản">Chuyển Khoản</option>
+        <option value="Đang Chờ">Đang Chờ</option>
+      </select>
+      <div *ngIf="cashTransaction.invalid && (cashTransaction.touched || submitted)" class="text-danger small mt-1">
+        Vui lòng chọn trạng thái Cash Transaction.
+      </div>
+    </div>
+
+    <!-- Para Status -->
+    <div class="col-md-6">
+      <label for="activeStatus" class="form-label">Active Status:</label>
+      <select id="activeStatus" name="activeStatus" [(ngModel)]="para.activeStatus" #paraStatus="ngModel"
+        class="form-select" required>
+        <option Value='' disabled>-- Chọn trạng thái --</option>
+        <option [ngValue]="0">0: Không hoạt động</option>
+        <option [ngValue]="1">1: Đang hoạt động</option>
+      </select>
+      <div *ngIf="activeStatus.invalid && (activeStatus.touched || submitted)" class="text-danger small mt-1">
+        Vui lòng chọn trạng thái Para Status.
+      </div>
+    </div>
+
+    <!-- Active Status -->
+    <div class="col-md-6">
+      <label for="paraStatus" class="form-label">Para Status:</label>
+      <select id="paraStatus" name="paraStatus" [(ngModel)]="para.paraStatus" #activeStatus="ngModel"
+        class="form-select" required>
+        <option Value='' disabled>-- Chọn trạng thái --</option>
+        <option [value]="0">0: Mới</option>
+        <option [value]="1">1: Chờ</option>
+        <option [value]="2">2: Đã phê duyệt</option>
+        <option [value]="3">3: Từ chối</option>
+        <option [value]="4">4: Xoá</option>
+      </select>
+      <div *ngIf="paraStatus.invalid && (paraStatus.touched || submitted)" class="text-danger small mt-1">
+        Vui lòng chọn trạng thái Active Status.
+      </div>
+    </div>
+
+    <!-- JSON Data -->
+    <div class="col-12">
+      <label for="jsonData" class="form-label">JSON Data:</label>
+      <textarea id="jsonData" name="jsonData" [(ngModel)]="para.jsonData" maxlength="1000" rows="3" class="form-control"
+        placeholder="Nhập dữ liệu JSON"></textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary me-2">
+        Lưu
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="backForm()">Hủy</button>
+    </div>
+
+    <!-- Lỗi chung (ví dụ lỗi server) -->
+    <div *ngIf="errorMsg" class="alert alert-danger mt-3">
+      {{ errorMsg }}
+    </div>
+  </div>
+</form>

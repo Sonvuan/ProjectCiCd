@@ -1,0 +1,21 @@
+version: "3"
+services:
+  backend:
+    build:
+      context: ./TimKiemDong
+      dockerfile: Dockerfile # nếu file Dockerfile đặt tên khác thì chỉ rõ
+    image: timkiemdong-backend:latest
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Tim_kiem_dong1
+      dockerfile: Dockerfile
+    image: timkiemdong-frontend:latest
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+    restart: unless-stopped
